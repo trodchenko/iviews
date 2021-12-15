@@ -45,15 +45,15 @@ public class Program
     public void Main()
     {
         List<IEmployee> employees = new List<IEmployee>
-		{
-			new Manager(),
-			new Developer()
-		};
-		
-		foreach (var employee in employees)
-		{
-			employee.Describe();
-		}
+        {
+            new Manager(),
+            new Developer()
+        };
+
+        foreach (var employee in employees)
+        {
+            employee.Describe();
+        }
     }
 }
 
@@ -80,23 +80,25 @@ public class Program
 
 public class Task1
 {
-	public decimal GetTotalSum(Order order)
-	{
-		decimal totalSum = order.GetSum();
-		int discount = 0;
-		
-		if(order.PromoCode == "GOODDISCOUNT") {
-			discount = 10;
-		}
-		if(order.PromoCode == "VERYNICEDISCOUNT") {
-			discount = 15;
-		}
-		
-		decimal vat = VatHelper.CalculateVATSum(order);
-		decimal discountSum = totalSum * discount / 100;
+    public decimal GetTotalSum(Order order)
+    {
+        decimal totalSum = order.GetSum();
+        int discount = 0;
 
-		return totalSum + vat - discountSum;
-	}
+        if (order.PromoCode == "GOODDISCOUNT")
+        {
+            discount = 10;
+        }
+        if (order.PromoCode == "VERYNICEDISCOUNT")
+        {
+            discount = 15;
+        }
+
+        decimal vat = VatHelper.CalculateVATSum(order);
+        decimal discountSum = totalSum * discount / 100;
+
+        return totalSum + vat - discountSum;
+    }
 }
 
 ------------------------------------------------------------------------------------------------------
@@ -122,32 +124,32 @@ public class Task1
 
 public class ToDoListController : Controller
 {
-	private Repository _repository;
-	
-	public ToDoListController()
-	{
-		_repository = new Repository();
-	}
-	
-	public IActionResult Getitems()
-    	{
-		var items = _repository.GetAll<ToDoItem>();
-		return Ok(items);
-	}
-	
-	public IActionResult Insert(ToDoItem item)
-    	{
-		if(item == null)
-		{
-			throw new ArgumentNullException(nameof(item));
-		}
-		
-		_repository.Save(item);
-		
-		EmailSender.Notify(ItemStatus.Created);
-			
-		return Ok(item);
-	}	
+    private Repository _repository;
+
+    public ToDoListController()
+    {
+        _repository = new Repository();
+    }
+
+    public IActionResult Getitems()
+    {
+        var items = _repository.GetAll<ToDoItem>();
+        return Ok(items);
+    }
+
+    public IActionResult Insert(ToDoItem item)
+    {
+        if (item == null)
+        {
+            throw new ArgumentNullException(nameof(item));
+        }
+
+        _repository.Save(item);
+
+        EmailSender.Notify(ItemStatus.Created);
+
+        return Ok(item);
+    }
 }
 
 
@@ -174,34 +176,34 @@ public class ToDoListController : Controller
 
 public class Task2
 {
-	public async void DownloadFiles(Uri[] uris)
-	{
-		var tasks = new List<Task>();
+    public async void DownloadFiles(Uri[] uris)
+    {
+        var tasks = new List<Task>();
 
-        	foreach (var uri in uris)
-        	{
-            		tasks.Add(DownloadFile(uri));
-	        }
+        foreach (var uri in uris)
+        {
+            tasks.Add(DownloadFile(uri));
+        }
 
-        	await Task.WhenAll(tasks);			
-	}
-	
-	private async Task DownloadFile(Uri uri)
-    	{
-        	var fileInfo = new FileInfo($"{Guid.NewGuid()}.pdf");
+        await Task.WhenAll(tasks);
+    }
 
-        	HttpClient client = new HttpClient();
-        	var response = await client.GetAsync(uri);
-        	using (var ms = new MemoryStream())
-        	{
-            		await response.Content.CopyToAsync(ms);
-            		using (var fs = System.IO.File.Create(fileInfo.FullName))
-            		{
-                		ms.Seek(0, SeekOrigin.Begin);
-                		await ms.CopyToAsync(fs);
-            		}
-        	}
-    	}
+    private async Task DownloadFile(Uri uri)
+    {
+        var fileInfo = new FileInfo($"{Guid.NewGuid()}.pdf");
+
+        HttpClient client = new HttpClient();
+        var response = await client.GetAsync(uri);
+        using (var ms = new MemoryStream())
+        {
+            await response.Content.CopyToAsync(ms);
+            using (var fs = System.IO.File.Create(fileInfo.FullName))
+            {
+                ms.Seek(0, SeekOrigin.Begin);
+                await ms.CopyToAsync(fs);
+            }
+        }
+    }
 }
 
 ------------------------------------------------------------------------------------------------------
