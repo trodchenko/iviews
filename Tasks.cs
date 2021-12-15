@@ -132,13 +132,13 @@ public class ToDoListController : Controller
 	public IActionResult Getitems()
     {
 		var items = _repository.GetAll<ToDoItem>();
-		
 		return Ok(items);
-    }
+	}
 	
 	public IActionResult Insert(ToDoItem item)
     {
-		if(item == null) {
+		if(item == null)
+		{
 			throw new ArgumentNullException(nameof(item));
 		}
 		
@@ -147,7 +147,7 @@ public class ToDoListController : Controller
 		EmailSender.Notify(ItemStatus.Created);
 			
 		return Ok(item);
-    }	
+	}	
 }
 
 
