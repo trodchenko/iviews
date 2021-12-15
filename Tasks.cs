@@ -130,13 +130,13 @@ public class ToDoListController : Controller
 	}
 	
 	public IActionResult Getitems()
-    {
+    	{
 		var items = _repository.GetAll<ToDoItem>();
 		return Ok(items);
 	}
 	
 	public IActionResult Insert(ToDoItem item)
-    {
+    	{
 		if(item == null)
 		{
 			throw new ArgumentNullException(nameof(item));
@@ -178,30 +178,30 @@ public class Task2
 	{
 		var tasks = new List<Task>();
 
-        foreach (var uri in uris)
-        {
-            tasks.Add(DownloadFile(uri));
-        }
+        	foreach (var uri in uris)
+        	{
+            		tasks.Add(DownloadFile(uri));
+	        }
 
-        await Task.WhenAll(tasks);			
+        	await Task.WhenAll(tasks);			
 	}
 	
 	private async Task DownloadFile(Uri uri)
-    {
-        var fileInfo = new FileInfo($"{Guid.NewGuid()}.pdf");
+    	{
+        	var fileInfo = new FileInfo($"{Guid.NewGuid()}.pdf");
 
-        HttpClient client = new HttpClient();
-        var response = await client.GetAsync(uri);
-        using (var ms = new MemoryStream())
-        {
-            await response.Content.CopyToAsync(ms);
-            using (var fs = System.IO.File.Create(fileInfo.FullName))
-            {
-                ms.Seek(0, SeekOrigin.Begin);
-                await ms.CopyToAsync(fs);
-            }
-        }
-    }
+        	HttpClient client = new HttpClient();
+        	var response = await client.GetAsync(uri);
+        	using (var ms = new MemoryStream())
+        	{
+            		await response.Content.CopyToAsync(ms);
+            		using (var fs = System.IO.File.Create(fileInfo.FullName))
+            		{
+                		ms.Seek(0, SeekOrigin.Begin);
+                		await ms.CopyToAsync(fs);
+            		}
+        	}
+    	}
 }
 
 ------------------------------------------------------------------------------------------------------
