@@ -131,7 +131,7 @@ public class ToDoListController : Controller
         _repository = new Repository();
     }
 
-    public IActionResult Getitems()
+    public IActionResult GetAll()
     {
         var items = _repository.GetAll<ToDoItem>();
         return Ok(items);
@@ -139,9 +139,9 @@ public class ToDoListController : Controller
 
     public IActionResult Insert(ToDoItem item)
     {
-        if (item == null)
+        if (string.IsNullOrEmpty(item.Title))
         {
-            throw new ArgumentNullException(nameof(item));
+            throw new ValidationException("Title is required.");
         }
 
         _repository.Save(item);
