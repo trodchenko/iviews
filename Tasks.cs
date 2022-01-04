@@ -94,7 +94,7 @@ public class Task1
             discount = 15;
         }
 
-        decimal vat = VatHelper.CalculateVATSum(order);
+        decimal vat = VatHelper.CalculateVATSum(totalSum);
         decimal discountSum = totalSum * discount / 100;
 
         return totalSum + vat - discountSum;
