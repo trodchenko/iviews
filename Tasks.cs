@@ -226,3 +226,31 @@ public class Task2
 ------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------
+
+public class Task3
+{
+    public async Task SaveMultithreading()
+    {
+        await Task.Run(() => 
+        {
+            using var db = new AppDbContext();
+            var items = (from x in db.Items where x.Price > 1000 select x).ToList<Item>();
+    
+            foreach(var item in items)
+                item.IsTooExpensive = true;
+    
+            db.SaveChanges();
+        });
+    }
+
+    public async Task SaveAsync()
+    {
+        using var db = new AppDbContext();
+        var items = await (from x in db.Items where x.Price > 1000 select x).ToListAsync<Item>();
+    
+        foreach(var item in items)
+            item.IsTooExpensive = true;
+    
+        await db.SaveChangesAsync();        
+    }
+}
